@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import ZooSearch from './ZooSearch';
 import ZooResults from './ZooResults';
 import { Jumbotron, Container, Row, Col, Button } from 'reactstrap';

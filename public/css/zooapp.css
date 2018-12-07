@@ -84,3 +84,5 @@ button.zoo-sort-order-select { margin-left: 20px; }
 #zoo-search-box div.buttons {
     margin-bottom: 1rem;
 }
+
+.table-responsive { margin-top: 1rem; }

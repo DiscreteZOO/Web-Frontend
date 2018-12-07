@@ -1,31 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, FormGroup, Label, Input } from 'reactstrap';
 import objectProperties from './objectProperties.json';
-
-const dataCollections = {
-    graphs: {
-        VT: {id: "VT",
-             name: "vertex transitive graphs",
-             info: "up to 31 vertices", 
-             by: "Gordon Royle, Brendan McKay and Alexander Hulpke", 
-             url: "http://staffhome.ecm.uwa.edu.au/~00013890/remote/trans/index.html"},
-        CVT: {id: "CVT",
-              name: "cubic vertex transitive graphs", 
-              info: "up to 1280 vertices", 
-              by: "Primož Potočnik, Pablo Spiga and Gabriel Verret", 
-              url: "http://www.matapp.unimib.it/~spiga/census.html"},
-        CAT: {id: "CAT",
-              name: "cubic arc transitive graphs", 
-              info: "up to 2048 vertices", 
-              by: "Marston Conder", 
-              url: "https://www.math.auckland.ac.nz/~conder/symmcubic2048list.txt"}
-    },
-    maniplexes: {}
-}
+import collectionsData from './collectionsData.json';
 
 const getCollectionsKeys = (objects) => {
     if (objects === null) return [];
-    else return Object.keys(dataCollections[objects]);
+    else return Object.keys(collectionsData[objects]);
 }
 
 class ZooSearch extends Component {
@@ -245,7 +225,7 @@ class ZooChooseCollections extends Component {
             return(
                 <FormGroup check>
                     {availableCollectionsKeys.map((key) => {
-                        return this.renderCollection(dataCollections[this.props.objects][key]);
+                        return this.renderCollection(collectionsData[this.props.objects][key]);
                     })}
                 </FormGroup>
             );

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="%PUBLIC_URL%/css/zoo.min.css"> <!-- Customized bootstrap -->
+    <link rel="stylesheet" href="%PUBLIC_URL%/css/react-table.css">
     <link rel="stylesheet" href="%PUBLIC_URL%/css/zooapp.css">
     
     <!--
@@ -81,90 +82,14 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <p class="my-4">First sort by
-                            <select class="zoo-order-select" v-model="resultsOrderBy1.column">
-                                <option selected value="none"><i>choose a column</i></option>
-                                <option disabled></option>
-                                <option v-for="c in columns[objects][columns[objects].columnSet]" v-bind:value="c.name">{{propertyName(c)}}</option>
-                            </select>
-                            <button type="button" class="btn btn-light btn-sm" v-on:click="toggleOrder('resultsOrderBy1');">
-                                <span v-if="resultsOrderBy1.order == 'ASC'">ascending</span>
-                                <span v-if="resultsOrderBy1.order == 'DESC'">descending</span>
-                            </button>
-                            , then by
-                            <select class="zoo-order-select" v-model="resultsOrderBy2.column" :disabled="resultsOrderBy1.column == 'none'">
-                                <option selected value="none"><i>choose a column</i></option>
-                                <option disabled></option>
-                                <option v-for="c in columns[objects][columns[objects].columnSet]" v-bind:value="c.name">{{propertyName(c)}}</option>
-                            </select>
-                            <button type="button" class="btn btn-light btn-sm" v-on:click="toggleOrder('resultsOrderBy2');">
-                                <span v-if="resultsOrderBy2.order == 'ASC'">ascending</span>
-                                <span v-if="resultsOrderBy2.order == 'DESC'">descending</span>
-                            </button>
-                            <button type="button" class="btn btn-primary btn-sm zoo-sort-order-select" v-on:click="displayResults();">Sort!</button>
-                        </p>
+                        
                     </div>
                 </div>
-                
-                <div class="row">
-                    <div class="col-lg-12">
-                        <nav aria-label="result navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item" v-if="page != 1">
-                                    <a class="page-link" v-on:click="goToPage(1);" aria-label="First">
-                                        <span aria-hidden="true">1</span>
-                                        <span class="sr-only">First</span>
-                                    </a>
-                                </li>
-                                <li class="page-item" v-if="page != 1">
-                                    <a class="page-link" v-on:click="goToPage(page - 1);" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                        <span class="sr-only">Previous</span>
-                                    </a>
-                                </li>
-                                <li class="page-item" v-for="n in pagination">
-                                    <a v-if="n != '...' && n != page" class="page-link" v-bind:class="{ 'bg-primary text-white': page == n }" v-on:click="goToPage(n)">{{n}}</a>
-                                    <span v-if="n == '...' || n == page" class="page-link">{{n}}</span>
-                                </li>
-                                <li class="page-item" v-if="page != results.pages">
-                                    <a class="page-link" v-on:click="goToPage(page + 1);" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                        <span class="sr-only">Next</span>
-                                    </a>
-                                </li>
-                                <li class="page-item" v-if="page != results.pages">
-                                    <a class="page-link" v-on:click="goToPage(results.pages);" aria-label="Last">
-                                        <span aria-hidden="true">{{results.pages}}</span>
-                                        <span class="sr-only">Last</span>
-                                    </a>
-                                </li>
-                                <li class="form-inline" id="zoo-page-jump">
-                                    <label class="sr-only" for="jump">Jump to page:</label>
-                                    <div class="input-group mb-2 mr-sm-2">
-                                        <input type="text" class="form-control" aria-label="Jump to page" v-model="pageJump" id="jump" placeholder="page #">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary" type="button" v-on:click="goToPage(pageJump);">Jump!</button>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+ 
             </div>
         </section>
         
     </main>
     
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
 </body>
 </html>

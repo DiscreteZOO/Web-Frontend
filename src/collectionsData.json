@@ -1,0 +1,24 @@
+{
+"graphs": {
+    "VT": {
+        "id": "VT",
+        "name": "vertex transitive graphs",
+        "info": "up to 31 vertices", 
+        "by": "Gordon Royle, Brendan McKay and Alexander Hulpke", 
+        "url": "http://staffhome.ecm.uwa.edu.au/~00013890/remote/trans/index.html"
+    },
+    "CVT": {
+        "id": "CVT",
+        "name": "cubic vertex transitive graphs", 
+        "info": "up to 1280 vertices", 
+        "by": "Primož Potočnik, Pablo Spiga and Gabriel Verret", 
+        "url": "http://www.matapp.unimib.it/~spiga/census.html"},
+    "CAT": {
+        "id": "CAT",
+        "name": "cubic arc transitive graphs", 
+        "info": "up to 2048 vertices", 
+        "by": "Marston Conder", 
+        "url": "https://www.math.auckland.ac.nz/~conder/symmcubic2048list.txt"}
+},
+"maniplexes": {}
+}
