@@ -11,10 +11,24 @@ class ZooApp extends Component {
         super(props);
         this.state = {
             objects: null,
-            results: null
+            parameters: null,
+            counter: null
         };
         this.passObjects = (objects) => { this.setState({objects: objects}); }
-        this.passResults = (results) => { this.setState({results: results}); }
+        this.passParameters = (obj) => { this.setState(obj); }
+        this.postData = (route = ``, data = {}) => {
+            return fetch(this.props.api + route, {
+                method: "POST",
+    //                mode: "cors", // no-cors, cors, *same-origin
+    //                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    //                credentials: "same-origin", // include, *same-origin, omit
+                headers: { "Content-Type": "application/json; charset=utf-8" },
+    //                redirect: "follow", // manual, *follow, error
+    //                referrer: "no-referrer", // no-referrer, *client
+                body: JSON.stringify(data), // body data type must match "Content-Type" header
+            })
+            .then(response => response.json()); // parses response to JSON
+        }
     }
     
     render() {
@@ -22,12 +36,17 @@ class ZooApp extends Component {
             <React.Fragment>
                 <ZooSearch 
                     objects={this.state.objects}
-                    api={this.props.api} 
+                    postData={this.postData}
                     passObjects={this.passObjects} 
-                    passResults={this.passResults}
+                    passParameters={this.passParameters}
                 />
-                {!(this.state.results === null) && 
-                    <ZooResults objects={this.state.objects} results={this.state.results} />
+                {!(this.state.parameters === null) && 
+                    <ZooResults 
+                        objects={this.state.objects}
+                        parameters={this.state.parameters}
+                        counter={this.state.counter}
+                        postData={this.postData}
+                    />
                 }
                 <ZooFooter />
             </React.Fragment>

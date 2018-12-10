@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, FormGroup, Label, Input } from 'reactstrap';
 import objectProperties from './objectProperties.json';
 import collectionsData from './collectionsData.json';
+import {sortedKeys} from './util.js';
 
 const getCollectionsKeys = (objects) => {
     if (objects === null) return [];
@@ -17,64 +18,24 @@ class ZooSearch extends Component {
             selectedFilters: "{}",
             counter: 0
         };
-        this.getResults = this.getResults.bind(this);
+        this.passParameters = this.passParameters.bind(this);
     }
     
     componentDidUpdate(pp, ps) {
         const s = this.state
         const objects = this.props.objects
-        const objectsCollectionsUpdate = (objects !== ps.objects) || (s.collections !== ps.collections);
-        const filters = JSON.parse(s.selectedFilters);
-        const keys = this.sortedKeys(filters);
-        var selectedFiltersUpdate = false;
-        
-        if (s.selectedFilters !== ps.selectedFilters) {
-            const prevFilters = JSON.parse(ps.selectedFilters);
-            const prevKeys = this.sortedKeys(prevFilters)
-            if (keys.length !== prevKeys.length) {
-                selectedFiltersUpdate = true;
-            }
-            else {
-                var i = 0;
-                while (i < keys.length && !selectedFiltersUpdate) {
-                    if (keys[i] !== prevKeys[i]) selectedFiltersUpdate = true;
-                    else if (filters[keys[i]] !== prevFilters[keys[i]]) selectedFiltersUpdate = true;
-                    i++;
-                }
-            }
-        }
-        
-        if (objectsCollectionsUpdate || selectedFiltersUpdate) {
-            var queryFilters = keys.map((k) => ({name: k, value: String(filters[k])}))
-            var queryJSON = {
+        // ok to just compare strings, the objects are sorted and numeric comparisons standardized
+        if (objects !== ps.objects || s.collections !== ps.collections || s.selectedFilters !== ps.selectedFilters) {
+            const filters = JSON.parse(s.selectedFilters);
+            const keys = sortedKeys(filters); 
+            const queryJSON = {
                 collections: s.collections,
-                filters: queryFilters
+                filters: keys.map((k) => ({name: k, value: String(filters[k])}))
             }
-            this.postData(this.props.api + '/count/' + objects, queryJSON).then(data => {
+            this.props.postData('/count/' + objects, queryJSON).then(data => {
                 this.setState({counter: data.value})
             }).catch(error => console.error(error));
         }
-    }
-    
-    postData(url = ``, data = {}) {
-        return fetch(url, {
-            method: "POST",
-//                mode: "cors", // no-cors, cors, *same-origin
-//                cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-//                credentials: "same-origin", // include, *same-origin, omit
-            headers: { "Content-Type": "application/json; charset=utf-8" },
-//                redirect: "follow", // manual, *follow, error
-//                referrer: "no-referrer", // no-referrer, *client
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
-        })
-        .then(response => response.json()); // parses response to JSON
-    }
-    
-    sortedKeys(o) {
-        const keys = Object.keys(o);
-        const sorted = keys.sort();
-        const filtered = sorted.filter((f) => !(o[f] === null))
-        return filtered;
     }
     
     chooseObjects(newChosenObjects) {
@@ -104,18 +65,16 @@ class ZooSearch extends Component {
         this.setState({selectedFilters: jsonString});
     }
     
-    getResults() {
+    passParameters() {
         const s = this.state
         const filters = JSON.parse(s.selectedFilters);
-        const keys = this.sortedKeys(filters);
+        const keys = sortedKeys(filters);
         var queryFilters = keys.map((k) => ({name: k, value: String(filters[k])}))
         var queryJSON = {
             collections: s.collections,
             filters: queryFilters
         }
-        this.postData(this.props.api + '/results/' + this.props.objects, queryJSON).then(data => {
-            this.props.passResults(data);
-        }).catch(error => console.error(error));
+        this.props.passParameters({counter: this.state.counter, parameters: JSON.stringify(queryJSON)});
     }
     
     render() {
@@ -143,17 +102,13 @@ class ZooSearch extends Component {
                                 <Col lg="8" className="text-white">
                                     <p>Matches found: <i>{this.state.counter}</i></p>
                                     <div className="buttons">
-                                        <Button onClick={this.getResults.bind(this)}>Display results</Button>
+                                        <Button onClick={this.passParameters.bind(this)}>Display results</Button>
                                         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="ml-3">
                                             <DropdownToggle caret>
                                                 <i className="fas fa-download"></i>
                                             </DropdownToggle>
                                             <DropdownMenu>
-                                                <DropdownItem header>Header</DropdownItem>
-                                                <DropdownItem disabled>Action</DropdownItem>
-                                                <DropdownItem>Another Action</DropdownItem>
-                                                <DropdownItem divider />
-                                                <DropdownItem>Another Action</DropdownItem>
+                                                <DropdownItem header>Soon!</DropdownItem>
                                             </DropdownMenu>
                                         </ButtonDropdown>
                                     </div>
@@ -240,7 +195,7 @@ class ZooChooseCollections extends Component {
     - - - - - - - - - - - - - - - -
     null: filter selected, no valid value
     true/false: boolean values (default = true)
-    /^(=|<=|>=|<|>|<>|!=)(\d+\.?\d*)$/
+    /^(=|==|<=|>=|<|>|<>|!=)(\d+\.?\d*)$/
  * * * * * * * * * * * * * * * * * * * * * * * * */
 class ZooFilters extends Component {
 
@@ -253,8 +208,12 @@ class ZooFilters extends Component {
     updateFilters(filtersObject) { this.props.callback(JSON.stringify(filtersObject)); }
     
     addFilter(name) {
-        var newState = this.getCurrentFilters();
-        newState[name] = null;
+        const filters = this.getCurrentFilters();
+        filters[name] = null;
+        const newState = {};
+        Object.keys(filters).sort().forEach(function(key) {
+          newState[key] = filters[key];
+        });
         this.updateFilters(newState);
     }
     
@@ -360,15 +319,27 @@ class SelectedFilter extends Component {
     
     validateAndUpdate() {
         var valueValid = false;
+        var actualValue = null;
+        function standardizer(match, operator, value, offset, string) {
+            var actualOperator = null
+            if (operator === "=" || operator === "==") actualOperator = "=";
+            else if (operator === "<>" || operator === "!=") actualOperator = "!=";
+            else actualOperator = operator;
+            return actualOperator + value;
+        }
         if (this.props.type === "bool") {
             valueValid = (this.state.value === true || this.state.value === false)
+            if (valueValid) actualValue = this.state.value;
         }
         if (this.props.type === "numeric") {
-            valueValid = /^(=|<=|>=|<|>|<>|!=)(\d+\.?\d*)$/.test(this.state.value.replace(/ /g, ''))
+            const v = this.state.value.replace(/ /g, '');
+            const r = /^(=|==|<=|>=|<|>|<>|!=)(\d+\.?\d*)$/;
+            valueValid = r.test(v)
+            if (valueValid) actualValue = v.replace(r, standardizer);
         }
         if (valueValid) {
             this.setState({ edit: false });
-            this.props.onDoneEditing(this.state.value);
+            this.props.onDoneEditing(actualValue);
         }
     }
     
