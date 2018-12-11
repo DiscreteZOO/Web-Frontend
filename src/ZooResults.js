@@ -3,7 +3,9 @@ import { Container, Row, Col } from 'reactstrap';
 import ReactTable from "react-table";
 import objectProperties from './objectProperties.json';
 
-function camelCase(s) { return s.replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); }); }
+function camelToUnderscore(s) { 
+    return s.replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, ""); 
+}
 
 const defaultColumns = {
     graphs: ["order", "vt", "cvt", "symcubic", "diameter", "girth", 
@@ -51,26 +53,31 @@ class ZooResults extends Component {
     }
     
     fetchData(state, instance) {
-        console.log(state);
         this.setState({ loading: true });
         var queryJSON = {
             pageSize: 20,
             page: 1,
-            parameters: JSON.parse(this.props.parameters)
+            parameters: JSON.parse(this.props.parameters),
+            orderBy: []
         }
         const flattenData = (row) => {
             var obj = { zooid: row.zooid };
-            Object.keys(row.index).forEach(function(key) { obj[key] = row.index[key]; });
-            Object.keys(row.bool).forEach(function(key) { obj[key] = row.bool[key]; });
-            Object.keys(row.numeric).forEach(function(key) { obj[key] = row.numeric[key]; });
+            Object.keys(row.index).forEach(function(key) { obj[camelToUnderscore(key)] = row.index[key]; });
+            Object.keys(row.bool).forEach(function(key) { obj[camelToUnderscore(key)] = String(row.bool[key]); });
+            Object.keys(row.numeric).forEach(function(key) { obj[camelToUnderscore(key)] = row.numeric[key]; });
             return obj;
+        }
+        const toApiOrder = (sort) => {
+            return { name: sort.id, value: (sort.desc ? "DESC" : "ASC") };
         }
         if (typeof state !== 'undefined') {
             queryJSON.pageSize = state.pageSize;
-            queryJSON.page = state.page;
+            queryJSON.page = state.page + 1;
+            queryJSON.orderBy = state.sorted.map(toApiOrder);
         }
-        
+        console.log(queryJSON);
         this.props.postData('/results/' + this.props.objects, queryJSON).then(data => {
+            console.log(data);
             this.setState({
                 data: data.map(flattenData), 
                 pages: Math.ceil(this.props.counter/queryJSON.pageSize),
