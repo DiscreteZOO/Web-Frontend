@@ -1,0 +1,7 @@
+{
+    "columns": {
+        "graphs": ["order", "vt", "cvt", "symcubic", "diameter", "girth", 
+             "is_arc_transitive", "is_bipartite", "is_cayley", "is_hamiltonian"],
+        "maniplexes": []
+    }
+}

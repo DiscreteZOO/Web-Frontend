@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import ReactTable from "react-table";
+import ChooseColumns from './ZooColumns';
+/* DATA */
 import objectProperties from './objectProperties.json';
+import defaults from './defaults.json';
 
-function camelToUnderscore(s) { 
+const camelToUnderscore = (s) => { 
     return s.replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, ""); 
-}
-
-const defaultColumns = {
-    graphs: ["order", "vt", "cvt", "symcubic", "diameter", "girth", 
-             "is_arc_transitive", "is_bipartite", "is_cayley", "is_hamiltonian"],
-    maniplexes: []
 }
 
 class ZooResults extends Component {
@@ -18,8 +15,8 @@ class ZooResults extends Component {
     constructor(props) {
         super(props);
         
-        this.getColumns = (colNames = []) => {
-            const list = (colNames.length == 0 ? defaultColumns[this.props.objects] : colNames);
+        const getColumns = (colNames = []) => {
+            const list = (colNames.length == 0 ? defaults.columns[this.props.objects] : colNames);
             const colObjects = list.map((columnName) => {
                 var c = objectProperties[this.props.objects][columnName];
                 var obj = {
@@ -32,7 +29,8 @@ class ZooResults extends Component {
         }
         
         this.state = {
-            columns: this.getColumns(),
+            columnKeys: defaults.columns[this.props.objects],
+            columns: getColumns(),
             data: null,
             pages: null,
             loading: false,
@@ -93,6 +91,9 @@ class ZooResults extends Component {
                 <Container>
                     <Row>
                         <Col lg="12">
+                            <div>
+                                <ChooseColumns objects={this.props.objects} current={this.state.columnKeys} />
+                            </div>
                             <div className="table-responsive">
                                 {this.state.data !== null &&
                                     <ReactTable manual

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.5.2",
+    "react-beautiful-dnd": "^10.0.3",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.5",
     "react-table": "^6.8.6",

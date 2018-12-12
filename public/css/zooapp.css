@@ -85,4 +85,16 @@ button.zoo-sort-order-select { margin-left: 20px; }
     margin-bottom: 1rem;
 }
 
-.table-responsive { margin: 2rem 0; }
+.settings { margin: 2rem; }
+.settings span { padding-left: 5px; }
+.table-responsive { margin: 1rem 0; }
+
+.droppable-area {
+    border-radius: 0.25rem;
+    margin: 10px 0px;
+    padding: 7px 20px;
+}
+.draggable-item {
+    margin: 5px;
+    background-color: #ffffff;
+}
