@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Button, ButtonGroup } from 'reactstrap';
 import {ZooInfoButton} from './ZooReusables';
 /* DATA */
 import objectProperties from './objectProperties.json';

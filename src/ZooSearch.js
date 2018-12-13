@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button, ButtonGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, FormGroup, Label, Input } from 'reactstrap';
+import { Container, Row, Col, Button, ButtonGroup, FormGroup, Label, Input } from 'reactstrap';
 import ZooFilters from './ZooFilters';
 /* DATA */
 import collectionsData from './collectionsData.json';
@@ -107,14 +107,6 @@ export default class ZooSearch extends Component {
                                     <p>Matches found: <i>{this.state.counter}</i></p>
                                     <div className="buttons">
                                         <Button onClick={this.passParameters.bind(this)}>Display results</Button>
-                                        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} className="ml-3">
-                                            <DropdownToggle caret>
-                                                <i className="fas fa-download"></i>
-                                            </DropdownToggle>
-                                            <DropdownMenu>
-                                                <DropdownItem header>Soon!</DropdownItem>
-                                            </DropdownMenu>
-                                        </ButtonDropdown>
                                     </div>
                                 </Col>
                             </Row>

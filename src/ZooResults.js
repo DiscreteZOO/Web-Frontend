@@ -16,7 +16,7 @@ class ZooResults extends Component {
         super(props);
         
         this.getColumns = (colNames = []) => {
-            const list = (colNames.length == 0 ? defaults.columns[this.props.objects] : colNames);
+            const list = (colNames.length === 0 ? defaults.columns[this.props.objects] : colNames);
             const colObjects = list.map((columnName) => {
                 var c = objectProperties[this.props.objects][columnName];
                 var obj = {
@@ -91,7 +91,6 @@ class ZooResults extends Component {
     }
     
     render() {
-        const { data, pages, loading } = this.state;
         return (
             <section id="results">
                 <Container>

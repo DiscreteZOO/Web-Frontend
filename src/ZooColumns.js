@@ -61,10 +61,10 @@ export default class ChooseColumns extends Component {
     render() {
         return (
             <div className="settings">
-                <p><a href="#" onClick={this.toggleExpanded}>
+                <p><Button color="link" onClick={this.toggleExpanded}>
                     <FontAwesomeIcon icon={this.state.expanded ? faAngleUp : faAngleDown} />
                     <span>Choose columns</span>
-                </a></p>
+                </Button></p>
                 {this.state.expanded &&
                     <React.Fragment>
                         <DragDropContext onDragEnd={this.onDragEnd}>
