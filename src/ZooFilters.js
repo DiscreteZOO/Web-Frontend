@@ -136,7 +136,7 @@ class SelectedFilter extends Component {
         var actualValue = null;
         function standardizer(match, operator, value, offset, string) {
             var actualOperator = null
-            if (operator === "=" || operator === "==") actualOperator = "=";
+            if (typeof operator === 'undefined' || operator === "=" || operator === "==") actualOperator = "=";
             else if (operator === "<>" || operator === "!=") actualOperator = "!=";
             else actualOperator = operator;
             return actualOperator + value;
@@ -147,7 +147,7 @@ class SelectedFilter extends Component {
         }
         if (this.props.type === "numeric") {
             const v = this.state.value.replace(/ /g, '');
-            const r = /^(=|==|<=|>=|<|>|<>|!=)(\d+\.?\d*)$/;
+            const r = /^(=|==|<=|>=|<|>|<>|!=)?(\d+\.?\d*)$/;
             valueValid = r.test(v)
             if (valueValid) actualValue = v.replace(r, standardizer);
         }

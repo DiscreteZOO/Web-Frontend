@@ -15,7 +15,7 @@ class ZooResults extends Component {
     constructor(props) {
         super(props);
         
-        const getColumns = (colNames = []) => {
+        this.getColumns = (colNames = []) => {
             const list = (colNames.length == 0 ? defaults.columns[this.props.objects] : colNames);
             const colObjects = list.map((columnName) => {
                 var c = objectProperties[this.props.objects][columnName];
@@ -30,13 +30,14 @@ class ZooResults extends Component {
         
         this.state = {
             columnKeys: defaults.columns[this.props.objects],
-            columns: getColumns(),
+            columns: this.getColumns(),
             data: null,
             pages: null,
             loading: false,
         };
         
         this.fetchData = this.fetchData.bind(this);
+        this.applyColumns = this.applyColumns.bind(this);
     }
     
     componentDidMount() {
@@ -48,6 +49,13 @@ class ZooResults extends Component {
         if (this.props.objects !== pp.objects || this.props.parameters !== pp.parameters) {
             this.fetchData();
         }
+    }
+    
+    applyColumns(newColumns) {
+        this.setState({ 
+            columnKeys: newColumns,
+            columns: this.getColumns(newColumns)
+        });
     }
     
     fetchData(state, instance) {
@@ -73,9 +81,7 @@ class ZooResults extends Component {
             queryJSON.page = state.page + 1;
             queryJSON.orderBy = state.sorted.map(toApiOrder);
         }
-        console.log(queryJSON);
         this.props.postData('/results/' + this.props.objects, queryJSON).then(data => {
-            console.log(data);
             this.setState({
                 data: data.map(flattenData), 
                 pages: Math.ceil(this.props.counter/queryJSON.pageSize),
@@ -92,7 +98,11 @@ class ZooResults extends Component {
                     <Row>
                         <Col lg="12">
                             <div>
-                                <ChooseColumns objects={this.props.objects} current={this.state.columnKeys} />
+                                <ChooseColumns 
+                                    objects={this.props.objects} 
+                                    current={this.state.columnKeys} 
+                                    apply={this.applyColumns}
+                                />
                             </div>
                             <div className="table-responsive">
                                 {this.state.data !== null &&

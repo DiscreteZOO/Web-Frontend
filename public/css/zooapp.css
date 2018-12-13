@@ -91,10 +91,14 @@ button.zoo-sort-order-select { margin-left: 20px; }
 
 .droppable-area {
     border-radius: 0.25rem;
-    margin: 10px 0px;
+    margin: -5px 0 10px 0;
     padding: 7px 20px;
 }
 .draggable-item {
     margin: 5px;
     background-color: #ffffff;
+}
+.droppable-caption {
+    margin-bottom: 0;
+    font-variant: small-caps;
 }
