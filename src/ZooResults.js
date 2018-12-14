@@ -67,10 +67,15 @@ class ZooResults extends Component {
             orderBy: []
         }
         const flattenData = (row) => {
-            var obj = { zooid: row.zooid };
-            Object.keys(row.index).forEach(function(key) { obj[camelToUnderscore(key)] = row.index[key]; });
+            var obj = (this.props.objects === "graphs" ? { zooid: row.zooid } : {});
+            if (this.props.objects === "graphs") {
+                Object.keys(row.index).forEach(function(key) { obj[camelToUnderscore(key)] = row.index[key]; });
+            }
             Object.keys(row.bool).forEach(function(key) { obj[camelToUnderscore(key)] = String(row.bool[key]); });
             Object.keys(row.numeric).forEach(function(key) { obj[camelToUnderscore(key)] = row.numeric[key]; });
+            if (this.props.objects === "maniplexes") {
+                Object.keys(row.string).forEach(function(key) { obj[camelToUnderscore(key)] = row.string[key]; });
+            }
             return obj;
         }
         const toApiOrder = (sort) => {
@@ -82,6 +87,7 @@ class ZooResults extends Component {
             queryJSON.orderBy = state.sorted.map(toApiOrder);
         }
         this.props.postData('/results/' + this.props.objects, queryJSON).then(data => {
+            console.log(data)
             this.setState({
                 data: data.map(flattenData), 
                 pages: Math.ceil(this.props.counter/queryJSON.pageSize),

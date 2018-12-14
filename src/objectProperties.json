@@ -33,6 +33,8 @@
         "is_polytope": {"isFilter": true, "display": "is polytope", "type": "bool"},
         "is_regular": {"isFilter": true, "display": "is regular", "type": "bool"},
         "orbits": {"isFilter": true, "display": "number of orbits", "type": "numeric"},
+        "rank": {"isFilter": true, "display": "rank", "type": "numeric"},
+        "small_group_id": {"isFilter": false, "display": "small group id", "type": "numeric"},
         "small_group_order": {"isFilter": true, "display": "group order", "type": "numeric"}
     }
 }

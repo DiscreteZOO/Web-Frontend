@@ -20,5 +20,13 @@
         "by": "Marston Conder", 
         "url": "https://www.math.auckland.ac.nz/~conder/symmcubic2048list.txt"}
 },
-"maniplexes": {}
+"maniplexes": {
+    "M2": {
+        "id": "M2",
+        "name": "2-orbit maniplexes", 
+        "info": "work in progress dataset", 
+        "by": "Katja Berčič and Daniel Pellicer", 
+        "url": ""
+    }
+}
 }
