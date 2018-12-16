@@ -33,10 +33,11 @@ export default class ZooSearch extends Component {
             const filters = JSON.parse(s.selectedFilters);
             const keys = sortedKeys(filters); 
             const queryJSON = {
+                objects: objects,
                 collections: s.collections,
                 filters: keys.map((k) => ({name: k, value: String(filters[k])}))
             }
-            this.props.postData('/count/' + objects, queryJSON).then(data => {
+            this.props.postData('/count', queryJSON).then(data => {
                 this.setState({counter: data.value})
             }).catch(error => console.error(error));
         }
@@ -75,6 +76,7 @@ export default class ZooSearch extends Component {
         const keys = sortedKeys(filters);
         var queryFilters = keys.map((k) => ({name: k, value: String(filters[k])}))
         var queryJSON = {
+            objects: this.props.objects,
             collections: s.collections,
             filters: queryFilters
         }

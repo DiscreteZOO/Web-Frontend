@@ -86,11 +86,10 @@ class ZooResults extends Component {
             queryJSON.page = state.page + 1;
             queryJSON.orderBy = state.sorted.map(toApiOrder);
         }
-        this.props.postData('/results/' + this.props.objects, queryJSON).then(data => {
-            console.log(data)
+        this.props.postData('/results', queryJSON).then(data => {
             this.setState({
-                data: data.map(flattenData), 
-                pages: Math.ceil(this.props.counter/queryJSON.pageSize),
+                data: data.data.map(flattenData), 
+                pages: data.pages,
                 loading: false
             });
         }).catch(error => console.error(error));
