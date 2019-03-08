@@ -1,6 +1,6 @@
 {
     "columns": {
-        "graphs": ["order", "vt", "cvt", "symcubic", "diameter", "girth", "is_arc_transitive", "is_bipartite", "is_cayley", "is_hamiltonian"],
+        "graphs": ["order", "index_vt", "index_cvt", "index_symcubic", "diameter", "girth", "is_arc_transitive", "is_bipartite", "is_cayley", "is_hamiltonian"],
         "maniplexes": ["symmetry_type", "is_polytope", "is_regular", "orbits", "rank", "small_group_id", "small_group_order"]
     }
 }

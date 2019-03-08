@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 //import ReactDOM from 'react-dom'
 
-class ZooApp extends Component {
+export default class ZooApp extends Component {
     
     constructor(props) {
         super(props);
@@ -57,7 +57,7 @@ class ZooApp extends Component {
 
 function ZooFooter() {
     return(
-<footer className="bg-dark" id="footer">
+        <footer className="bg-dark" id="footer">
             <Container>
                 <Row>
                     <Col lg="4" className="my-5 text-white">
@@ -71,12 +71,4 @@ function ZooFooter() {
             </Container>
         </footer>
     );
-    /*                                <div id="licence">
-                            <a className="icon-link fa-2x fa-pull-left" href="https://creativecommons.org/licenses/by/4.0/">
-                                <i className="fab fa-creative-commons"></i>
-                            </a>
-                            <p>This work is licensed under a Creative Commons Attribution 4.0 International License</p>
-                        </div>*/
 }
-
-export default ZooApp;

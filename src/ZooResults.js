@@ -6,11 +6,7 @@ import ChooseColumns from './ZooColumns';
 import objectProperties from './objectProperties.json';
 import defaults from './defaults.json';
 
-const camelToUnderscore = (s) => { 
-    return s.replace(/\.?([A-Z])/g, function (x,y){return "_" + y.toLowerCase()}).replace(/^_/, ""); 
-}
-
-class ZooResults extends Component {
+export default class ZooResults extends Component {
     
     constructor(props) {
         super(props);
@@ -23,6 +19,7 @@ class ZooResults extends Component {
                     Header: c.display,
                     accessor: columnName
                 };
+                if (c.type === "bool") { obj.Cell = props => String(props.value) }
                 return obj;  
             })
             return colObjects;
@@ -66,18 +63,6 @@ class ZooResults extends Component {
             parameters: JSON.parse(this.props.parameters),
             orderBy: []
         }
-        const flattenData = (row) => {
-            var obj = (this.props.objects === "graphs" ? { zooid: row.zooid } : {});
-            if (this.props.objects === "graphs") {
-                Object.keys(row.index).forEach(function(key) { obj[camelToUnderscore(key)] = row.index[key]; });
-            }
-            Object.keys(row.bool).forEach(function(key) { obj[camelToUnderscore(key)] = String(row.bool[key]); });
-            Object.keys(row.numeric).forEach(function(key) { obj[camelToUnderscore(key)] = row.numeric[key]; });
-            if (this.props.objects === "maniplexes") {
-                Object.keys(row.string).forEach(function(key) { obj[camelToUnderscore(key)] = row.string[key]; });
-            }
-            return obj;
-        }
         const toApiOrder = (sort) => {
             return { name: sort.id, value: (sort.desc ? "DESC" : "ASC") };
         }
@@ -88,7 +73,7 @@ class ZooResults extends Component {
         }
         this.props.postData('/results', queryJSON).then(data => {
             this.setState({
-                data: data.data.map(flattenData), 
+                data: data.data, 
                 pages: data.pages,
                 loading: false
             });
@@ -127,7 +112,3 @@ class ZooResults extends Component {
         );
     }
 }
-
-
-
-export default ZooResults;
