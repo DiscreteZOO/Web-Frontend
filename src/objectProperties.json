@@ -36,5 +36,13 @@
         "rank": {"isFilter": true, "display": "rank", "type": "numeric"},
         "small_group_id": {"isFilter": false, "display": "small group id", "type": "numeric"},
         "small_group_order": {"isFilter": true, "display": "group order", "type": "numeric"}
+    },
+    "example": {
+        "ID": {"isFilter": false, "display": "ID", "type": "opaque"},
+        "mat": {"isFilter": false, "display": "mat", "type": "opaque"},
+        "trace": {"isFilter": true, "display": "trace", "type": "numeric"},
+        "orthogonal": {"isFilter": true, "display": "orthogonal", "type": "bool"},
+        "eigenvalues": {"isFilter": true, "display": "eigenvalues", "type": "opaque"},
+        "characteristic": {"isFilter": true, "display": "characteristic", "type": "opaque"}
     }
 }

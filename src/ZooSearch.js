@@ -130,6 +130,7 @@ class ZooChooseObjects extends Component {
         return(
             // default color="secondary"
             <Button
+                key={value}
                 className={"zoo-radio-objects" + (this.props.objects === value ? " focus" : "")}
                 onClick={() => this.props.chooseObjects(value)}>
                 {label} <ZooInfoButton value="type" />
@@ -138,12 +139,12 @@ class ZooChooseObjects extends Component {
     }
     
     render() {
+        var objList = Object.keys(collectionsData).map((key) => {
+            return this.renderButton(key, key.charAt(0).toUpperCase() + key.slice(1));
+        })
         return(
             <React.Fragment>
-                <ButtonGroup id="zoo-choose-objects">
-                    {this.renderButton("graphs", "Graphs")}
-                    {this.renderButton("maniplexes", "Maniplexes")}
-                </ButtonGroup>
+                <ButtonGroup id="zoo-choose-objects">{objList}</ButtonGroup>
                 <div className="mx-auto my-4">
                     {!(this.props.objects === null) &&
                         <ZooChooseCollections

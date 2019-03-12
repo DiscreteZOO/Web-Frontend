@@ -28,5 +28,14 @@
         "by": "Katja Berčič and Daniel Pellicer", 
         "url": ""
     }
+},
+"example": {
+    "Ex": {
+        "id": "Ex",
+        "name": "toy matrix dataset", 
+        "info": "work in progress dataset", 
+        "by": "Katja Berčič and Florian Rabe", 
+        "url": ""
+    }
 }
 }
