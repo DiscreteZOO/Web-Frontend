@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import ReactTable from "react-table";
+import ReactTable from 'react-table';
 import ChooseColumns from './ZooColumns';
 /* DATA */
 import objectProperties from './objectProperties.json';
 import defaults from './defaults.json';
+
+const printPolynomial = (arr) => {
+    arr.reverse();
+    var list = arr.map((a, i) => {
+        var c = a[1]
+        var exp = a[0]
+        if (c === 0) return null;
+        if (c === 1) c = "";
+        if (a[1] > 0 && i > 0) c = "+" + c;
+        if (exp === 0) return <span key={i}>{c}</span>;
+        if (exp === 1) return <span key={i}>{c} x</span>;
+        else return <span key={i}>{c} x<sup>{exp}</sup></span>;
+    })
+    return list
+}
 
 export default class ZooResults extends Component {
     
@@ -20,6 +35,8 @@ export default class ZooResults extends Component {
                     accessor: columnName
                 };
                 if (c.type === "bool") { obj.Cell = props => String(props.value) }
+                if (c.type === "list:numeric") { obj.Cell = props => String(props.value) }
+                if (c.type === "polynomial") { obj.Cell = props => printPolynomial(props.value) }
                 return obj;  
             })
             return colObjects;

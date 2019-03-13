@@ -1,7 +1,7 @@
 {
     "columns": {
-        "graphs": ["order", "index_vt", "index_cvt", "index_symcubic", "diameter", "girth", "is_arc_transitive", "is_bipartite", "is_cayley", "is_hamiltonian"],
+        "graphs": ["order", "index_VT", "index_CVT", "index_symcubic", "diameter", "girth", "is_arc_transitive", "is_bipartite", "is_cayley", "is_hamiltonian"],
         "maniplexes": ["symmetry_type", "is_polytope", "is_regular", "orbits", "rank", "small_group_id", "small_group_order"],
-        "example": ["ID", "trace", "orthogonal", "eigenvalues"]
+        "example": ["ID", "trace", "orthogonal", "eigenvalues", "characteristic"]
     }
 }

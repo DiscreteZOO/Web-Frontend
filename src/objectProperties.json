@@ -1,8 +1,8 @@
 {
     "graphs": {
         "index_symcubic": {"isFilter": false, "display": "SymCubic", "type": "index"},
-        "index_cvt": {"isFilter": false, "display": "CVT", "type": "index"},
-        "index_vt": {"isFilter": false, "display": "VT", "type": "index"},
+        "index_CVT": {"isFilter": false, "display": "CVT", "type": "index"},
+        "index_VT": {"isFilter": false, "display": "VT", "type": "index"},
         "chromatic_index": {"isFilter": true, "display": "chromatic index", "type": "numeric"},
         "clique_number": {"isFilter": true, "display": "clique number", "type": "numeric"},
         "connected_components_number": {"isFilter": true, "display": "connected components number", "type": "numeric"},
@@ -42,7 +42,7 @@
         "mat": {"isFilter": false, "display": "mat", "type": "opaque"},
         "trace": {"isFilter": true, "display": "trace", "type": "numeric"},
         "orthogonal": {"isFilter": true, "display": "orthogonal", "type": "bool"},
-        "eigenvalues": {"isFilter": true, "display": "eigenvalues", "type": "opaque"},
-        "characteristic": {"isFilter": true, "display": "characteristic", "type": "opaque"}
+        "eigenvalues": {"isFilter": true, "display": "eigenvalues", "type": "list:numeric"},
+        "characteristic": {"isFilter": true, "display": "characteristic", "type": "polynomial"}
     }
 }
